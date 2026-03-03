@@ -15,28 +15,5 @@
   ],
   "logo": "assets/logo.svg",
   "agents": "./agents/",
-  "commands": "./commands/",
-  "rules": "./rules/",
-  "components": {
-    "agents": [
-      "main-planner",
-      "sub-planner",
-      "worker-backend",
-      "worker-frontend",
-      "worker-infra",
-      "worker-mobile",
-      "integrator",
-      "qa"
-    ],
-    "commands": [
-      "ma-handoff.md",
-      "ma-integrate.md",
-      "ma-parallel-agents.md",
-      "ma-plan.md",
-      "ma-qa.md",
-      "ma-qa-fail-to-fixplan.md",
-      "ma-worktree-cleanup.md",
-      "ma-worktree-create.md"
-    ]
-  }
+  "commands": "./commands/"
 }
