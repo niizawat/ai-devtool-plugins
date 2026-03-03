@@ -16,7 +16,7 @@ description: infra領域のWorker。影響範囲/最小権限/ロールバック
 ## スコープ制約
 
 - 指定された `in_scope` 以外に踏み出さない
-- 追加で必要になった変更がある場合は、実装を止めて Root Planner に報告する
+- 追加で必要になった変更がある場合は、実装を止めて Main Planner に報告する
 - 並列タスクの場合は、TaskSpec の `worktree.path` で指定されたディレクトリ上で作業する（他タスクの worktree には手を出さない）
 
 ## 作業ディレクトリ（worktree 対応）

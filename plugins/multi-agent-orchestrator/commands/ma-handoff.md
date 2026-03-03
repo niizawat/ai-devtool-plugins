@@ -3,7 +3,7 @@ name: ma-handoff
 description: Workerのハンドオフテンプレ。統合とQAのために必須。
 ---
 
-# ハンドオフ（Worker → Integrator / Root Planner）
+# ハンドオフ（Worker → Integrator / Main Planner）
 
 以下のテンプレを埋めて提出してください。空欄が多い場合は未完扱いになります。
 

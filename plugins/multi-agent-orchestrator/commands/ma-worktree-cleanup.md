@@ -20,7 +20,7 @@ git merge --no-ff worker/T3 -m "merge(T3): <タイトル>"
 ```
 
 > **競合が発生した場合**: 競合ファイルを修正してから `git merge --continue` で続行してください。
-> 判断が難しい競合は Root Planner に報告してください。
+> 判断が難しい競合は Main Planner に報告してください。
 
 ## Step 2: worktree の削除
 

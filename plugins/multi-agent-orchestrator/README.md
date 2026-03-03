@@ -24,7 +24,7 @@ cp -R "$(pwd)/plugins/multi-agent-orchestrator" \
 
 ### 反映確認
 
-- Cursor を再起動（またはウィンドウのリロード）して、利用可能なエージェント/コマンド一覧に `root-planner` などが出ることを確認してください。
+- Cursor を再起動（またはウィンドウのリロード）して、利用可能なエージェント/コマンド一覧に `main-planner` などが出ることを確認してください。
 
 ### アンインストール
 
@@ -34,10 +34,10 @@ rm -rf "$HOME/.cursor/plugins/local/multi-agent-orchestrator"
 
 ## できること
 
-- Root Planner がタスクを作成し、必要なら 3〜5 タスクに分割して並列化
+- Main Planner がタスクを作成し、必要なら 3〜5 タスクに分割して並列化
 - 4種類の領域 Worker（frontend / backend / mobile / infra）に割り当て
 - Integrator がハンドオフを統合し、QA が品質ゲートで合否判定
-- QA が NG の場合、Root Planner に戻して修正ループ（Single-task または 3〜5 の修正タスク）
+- QA が NG の場合、Main Planner に戻して修正ループ（Single-task または 3〜5 の修正タスク）
 
 ## コンセプト
 
@@ -45,11 +45,11 @@ rm -rf "$HOME/.cursor/plugins/local/multi-agent-orchestrator"
 - 並列化する場合のみ 3〜5 に分割してスループットを上げる
 - タスク仕様（TaskSpec）に `AssignedWorker` と `SkillCards`（最大 2）を必須化して迷子を防ぐ
 - QA は「合否」「Blockers（最大 3）」「次アクション」を固定フォーマットで返す
-- 要件定義/設計/参考情報のドキュメント場所（ファイルパス/URL）は、ユーザーが Root Planner に提示する前提。未提示なら Root Planner が質問して確認する
+- 要件定義/設計/参考情報のドキュメント場所（ファイルパス/URL）は、ユーザーが Main Planner に提示する前提。未提示なら Main Planner が質問して確認する
 
 ## 含まれるコンポーネント
 
-- `agents/`: Root Planner / SubPlanner / Integrator / QA / 領域 Worker
+- `agents/`: Main Planner / Sub Planner / Integrator / QA / 領域 Worker
 - `rules/`: 運用プロトコル、QA ゲート、安全なシェル実行のガードレール
 - `commands/`: 計画、ハンドオフ、統合、QA、NG→修正計画の定型プロンプト
 - `hooks/`: 最小の安全柵（任意）
@@ -66,7 +66,7 @@ rm -rf "$HOME/.cursor/plugins/local/multi-agent-orchestrator"
 
 ## サブエージェント運用の注意
 
-- サブエージェントは空のコンテキストから開始します。Root Planner は並列タスクの Worker プロンプトに、必要な情報（参照ドキュメントの場所、受け入れ条件、最小チェック、スコープ）をすべて含めてください。
+- サブエージェントは空のコンテキストから開始します。Main Planner は並列タスクの Worker プロンプトに、必要な情報（参照ドキュメントの場所、受け入れ条件、最小チェック、スコープ）をすべて含めてください。
 - 並列エージェントは専用 worktree で動作します。通常は Cursor が worktree を自動で作成・管理します。
 - worktree 上では LSP が利用できない場合があります。診断は「テスト/ビルド/最小チェックの実行結果」を優先してください。
 
@@ -74,10 +74,10 @@ rm -rf "$HOME/.cursor/plugins/local/multi-agent-orchestrator"
 
 以下は、プラグインを利用する際のプロンプト例です。
 
-### Root Planner にオーケストレーションを依頼する（2段階）
+### Main Planner にオーケストレーションを依頼する（2段階）
 
 ```text
-あなたは `root-planner` です。
+あなたは `main-planner` です。
 次の要件を満たすために、次の2段階で進めてください。
 
 1. まず、ユーザーが読みやすい文章（Markdownの箇条書き）で「実装計画」を作成してください。ここでは YAML は出さないでください。
@@ -104,14 +104,14 @@ rm -rf "$HOME/.cursor/plugins/local/multi-agent-orchestrator"
 - Worker は空のコンテキストから開始します。作業指示プロンプトには必要情報（参照ドキュメント、受け入れ条件、最小チェック、スコープ）をすべて含めてください。
 ```
 
-### 並列エージェントを実行する（Root Plannerが起動し、ユーザーはApplyする）
+### 並列エージェントを実行する（Main Plannerが起動し、ユーザーはApplyする）
 
 ```text
-Root Planner が Worker を 3〜5 並列で起動します。
+Main Planner が Worker を 3〜5 並列で起動します。
 ユーザーは各結果カードを確認し、必要なものから順に Apply でプライマリ作業ツリーに取り込みます。
 ```
 
-### Worker に実装させる（Root Planner が起動時に渡すプロンプトの例）
+### Worker に実装させる（Main Planner が起動時に渡すプロンプトの例）
 
 ```text
 あなたは `worker-frontend` です。
@@ -158,7 +158,7 @@ QAResult 形式で出力してください。
 ### QA Fail を修正計画に落とす
 
 ```text
-あなたは `root-planner` です。
+あなたは `main-planner` です。
 次の QAResult（Fail）を、修正タスク（Single-taskまたは3〜5）に落としてください。
 各タスクに assigned_worker と skill_cards（最大2）を必ず付与してください。
 

@@ -10,13 +10,13 @@ description: 複数のWorkerハンドオフを統合し、競合を解消してQ
 ## 原則
 
 - 仕様と受け入れ条件を最優先
-- 競合がある場合は、Root Planner に判断を求める（推測で決めない）
+- 競合がある場合は、Main Planner に判断を求める（推測で決めない）
 - 影響範囲（破壊的変更、移行が必要な点）を必ず明記
 
 ## 入力
 
 - 1つ以上の Worker ハンドオフ（`commands/ma-handoff.md` フォーマット）
-- Root Planner の TaskSpec（Mode: single または parallel）
+- Main Planner の TaskSpec（Mode: single または parallel）
 
 ## 出力（必須フォーマット）
 

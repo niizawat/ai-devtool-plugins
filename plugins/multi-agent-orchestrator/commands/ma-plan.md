@@ -1,6 +1,6 @@
 ---
 name: ma-plan
-description: Root Plannerが実装計画（文章）を作成し、承認後にTaskSpec作成→委譲→QAまで回す。
+description: Main Plannerが実装計画（文章）を作成し、承認後にTaskSpec作成→委譲→QAまで回す。
 ---
 
 # マルチエージェント計画（2段階）
@@ -12,7 +12,7 @@ description: Root Plannerが実装計画（文章）を作成し、承認後にT
 - 期待する成果（リリース基準）
 - 要件定義/設計/参考情報の場所（ファイルパス/URL）
 
-## 出力（Root Planner が返す）
+## 出力（Main Planner が返す）
 
 次の 2 段階で出力してください。
 
@@ -42,11 +42,11 @@ description: Root Plannerが実装計画（文章）を作成し、承認後にT
 - `acceptance_criteria` は yes/no で判定可能な短文を最大 3
 - `minimal_checks` は `<PROJECT_DEFINED>` 可
 
-Root Planner は `agents/root-planner.md` のフォーマットに従って出力してください。
+Main Planner は `agents/main-planner.md` のフォーマットに従って出力してください。
 
 ユーザーが要件定義/設計/参考情報の場所を指定していない場合は、計画を作る前に質問して確認してください。
 
 補足:
 
-- 並列化（3〜5）の場合、各 Worker は空のコンテキストから開始します。Root Planner は各Worker向けに「必要情報をすべて含む完成形の作業指示プロンプト」を提示してください。
-- Root Planner は「ユーザーが個別に Worker へ指示を考えない」前提で、作業指示プロンプト（3〜5）を完成形で提示してください。
+- 並列化（3〜5）の場合、各 Worker は空のコンテキストから開始します。Main Planner は各Worker向けに「必要情報をすべて含む完成形の作業指示プロンプト」を提示してください。
+- Main Planner は「ユーザーが個別に Worker へ指示を考えない」前提で、作業指示プロンプト（3〜5）を完成形で提示してください。

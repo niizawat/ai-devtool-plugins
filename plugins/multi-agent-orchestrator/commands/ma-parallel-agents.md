@@ -36,7 +36,7 @@ git worktree add ../REPO_NAME-worker-T3 -b worker/T3
 
 ## Step 1: Worker の起動
 
-Root Planner は各タスクの「完成形の作業指示プロンプト」を出力し、親エージェントが Task tool で並列起動します。
+Main Planner は各タスクの「完成形の作業指示プロンプト」を出力し、親エージェントが Task tool で並列起動します。
 
 各 Worker への指示に必ず含めること：
 

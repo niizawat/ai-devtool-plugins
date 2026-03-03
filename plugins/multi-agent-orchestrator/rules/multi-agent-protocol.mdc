@@ -9,13 +9,13 @@ multi-agent-protocol:
 
 - タスクは TaskSpec として発行し、`AssignedWorker` と `SkillCards`（最大2）を必須とする
 - 小スコープは Single-task を優先し、並列化する場合のみ 3〜5 に分割する
-- 並列化（3〜5）の場合、**親エージェント（Root Planner を呼び出した Agent）** が Worker を起動する前に `commands/ma-worktree-create.md` の手順で各タスクの worktree を作成し、各 Worker に worktree パスを渡す
-- サブエージェントは空のコンテキストから開始するため、Root Planner は **各Workerへの作業指示プロンプトに必要な情報をすべて含める**（参照ドキュメントの場所、受け入れ条件、最小チェックなど）
-- Worker はスコープ外に踏み出さない。追加作業が必要なら Root Planner に報告して止める
+- 並列化（3〜5）の場合、**親エージェント（Main Planner を呼び出した Agent）** が Worker を起動する前に `commands/ma-worktree-create.md` の手順で各タスクの worktree を作成し、各 Worker に worktree パスを渡す
+- サブエージェントは空のコンテキストから開始するため、Main Planner は **各Workerへの作業指示プロンプトに必要な情報をすべて含める**（参照ドキュメントの場所、受け入れ条件、最小チェックなど）
+- Worker はスコープ外に踏み出さない。追加作業が必要なら Main Planner に報告して止める
 - ハンドオフは `commands/ma-handoff.md` のテンプレで提出し、テンプレ未満は未完扱い
 - Integrator は複数ハンドオフを統合し、QA に渡す単一の統合状態を作る
 - QA は合否を判定し、Fail の場合は Blockers（最大3）と次の修正計画（Single-task または 3〜5）を返す
-- QA Fail の場合、Root Planner は修正タスクに落としてループする
+- QA Fail の場合、Main Planner は修正タスクに落としてループする
 
 SingleTaskCriteria:
 
@@ -36,7 +36,7 @@ WorktreeWorkflow:
 
 - **並列タスクの worktree 作成は親エージェントの責務**（Cursor の UI 機能には依存しない）
 - Worker を起動する**前に**、`commands/ma-worktree-create.md` の手順で各タスクの worktree を作成する
-- Root Planner は Worker への作業指示プロンプトに **worktree の絶対パス** と **ブランチ名** を必ず含める
+- Main Planner は Worker への作業指示プロンプトに **worktree の絶対パス** と **ブランチ名** を必ず含める
 - Worker は実装完了後、担当 worktree のブランチにコミットしてからハンドオフを提出する
 - Integrator はハンドオフ確認後、`commands/ma-worktree-cleanup.md` の手順でワーカーブランチをマージし worktree を片付ける
 - 依存関係のインストール等が必要なら、プロジェクトの `.cursor/worktrees.json` で worktree セットアップを定義する
@@ -44,7 +44,7 @@ WorktreeWorkflow:
 Limitations:
 
 - worktree 上では LSP が利用できない場合があるため、診断は「テスト/ビルド/最小チェックの実行結果」を優先し、ハンドオフに証跡として残す
-- サブエージェントの入れ子はサポートされない場合があるため、Root Planner が Worker サブエージェントを起動できない環境では、Root Planner は「Worker起動用プロンプト」を提示し、メインのAgent（親）側で起動する
+- サブエージェントの入れ子はサポートされない場合があるため、Main Planner が Worker サブエージェントを起動できない環境では、Main Planner は「Worker起動用プロンプト」を提示し、メインのAgent（親）側で起動する
 
 SkillCardTemplate:
 
