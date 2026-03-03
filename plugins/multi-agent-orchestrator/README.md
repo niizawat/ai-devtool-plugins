@@ -7,11 +7,14 @@
 利用したいプロジェクトのルートで以下のコマンドを実行してください。
 
 ```bash
+# craftdesk.json を初期化（初回のみ）
+pnpm dlx craftdesk init
+
 # プラグインを依存に追加（モノレポのサブディレクトリを直接指定）
-craftdesk add https://github.com/niizawat/ai-devtool-plugins/tree/main/plugins/multi-agent-orchestrator
+pnpm dlx craftdesk add https://github.com/niizawat/ai-devtool-plugins/tree/main/plugins/multi-agent-orchestrator
 
 # インストール実行（.claude/plugins/ 以下に展開される）
-craftdesk install
+pnpm dlx craftdesk install
 ```
 
 ### 反映確認
