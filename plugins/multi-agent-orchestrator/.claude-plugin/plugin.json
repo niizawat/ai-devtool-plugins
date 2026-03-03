@@ -7,6 +7,6 @@
     "email": "niizawa.tadashi@classmethod.jp"
   },
   "license": "MIT",
-  "agents": "../agents/",
-  "commands": "../commands/"
+  "agents": "./agents/",
+  "commands": "./commands/"
 }
