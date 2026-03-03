@@ -1,0 +1,18 @@
+{
+  "name": "multi-agent-orchestrator",
+  "displayName": "マルチエージェント・オーケストレーター",
+  "version": "0.1.0",
+  "description": "計画 → 並列実装 → 統合 → QA ループを回すための運用プラグイン。",
+  "author": {
+    "name": "Tadashi Niizawa"
+  },
+  "license": "MIT",
+  "keywords": [
+    "cursor",
+    "plugin",
+    "multi-agent",
+    "orchestration",
+    "qa"
+  ],
+  "logo": "assets/logo.svg"
+}

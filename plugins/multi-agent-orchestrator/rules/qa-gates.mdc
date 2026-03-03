@@ -1,0 +1,19 @@
+---
+description: マルチエージェント運用におけるリリース判定のQAゲート
+alwaysApply: false
+globs:
+  - "**/*"
+---
+
+qa-gates:
+
+- Gate 1: 受け入れ条件を満たす
+- Gate 2: 重大退行なし（影響範囲の説明がある）
+- Gate 3: 最小テスト条件を満たす（未実行の場合は妥当な理由と代替がある）
+- Gate 4: Secrets/危険デフォルトなし
+
+qa-output-requirements:
+
+- `status`: pass|fail
+- `blockers`: 最大3
+- `next_fix_plan`: Single-task または 3〜5 の修正タスク（各タスクに `assigned_worker` と `skill_cards` を付与）

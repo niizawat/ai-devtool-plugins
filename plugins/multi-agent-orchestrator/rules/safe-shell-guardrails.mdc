@@ -1,0 +1,13 @@
+---
+description: マルチエージェント作業中のシェル実行を安全にするためのガードレール
+alwaysApply: false
+globs:
+  - "**/*"
+---
+
+safe-shell-guardrails:
+
+- 破壊的な操作（例: `rm -rf /`、強制 push、強制 reset）は実行しない
+- シェルコマンドを実行する前に、意図と影響範囲を 1〜2 行で説明する
+- 重要な変更を行うコマンドは、Dry-run や diff を優先する（例: `--dry-run`、`diff`、`plan`）
+- secrets が含まれる可能性がある出力は貼り付けない
