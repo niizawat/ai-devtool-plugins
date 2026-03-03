@@ -1,6 +1,6 @@
 ---
 name: ma-parallel-agents
-description: git worktreeを使って、Workerを3〜5並列で実行する運用テンプレ。Cursor UIに依存しない。
+description: git worktreeを使って、Workerを3〜5並列で実行する運用テンプレ。ホストの UI に依存しない。
 ---
 
 # 並列エージェント（3〜5並列）
@@ -51,7 +51,7 @@ Worker のハンドオフが出揃ったら、`commands/ma-worktree-cleanup.md` 
 
 ## worktree セットアップ（依存関係インストール等が必要な場合）
 
-プロジェクト側に `.cursor/worktrees.json` を用意すると、worktree 作成後のセットアップを定義できます。
+プロジェクト側に worktree セットアップ設定（例: `.cursor/worktrees.json` や `.claude/worktrees.json`）を用意すると、worktree 作成後のセットアップを定義できます。
 
 - Node.js の例（pnpm）:
 

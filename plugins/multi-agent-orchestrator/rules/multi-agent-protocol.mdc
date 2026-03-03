@@ -34,12 +34,12 @@ TaskSpecRequiredFields:
 
 WorktreeWorkflow:
 
-- **並列タスクの worktree 作成は親エージェントの責務**（Cursor の UI 機能には依存しない）
+- **並列タスクの worktree 作成は親エージェントの責務**（ホストの UI 機能には依存しない）
 - Worker を起動する**前に**、`commands/ma-worktree-create.md` の手順で各タスクの worktree を作成する
 - Main Planner は Worker への作業指示プロンプトに **worktree の絶対パス** と **ブランチ名** を必ず含める
 - Worker は実装完了後、担当 worktree のブランチにコミットしてからハンドオフを提出する
 - Integrator はハンドオフ確認後、`commands/ma-worktree-cleanup.md` の手順でワーカーブランチをマージし worktree を片付ける
-- 依存関係のインストール等が必要なら、プロジェクトの `.cursor/worktrees.json` で worktree セットアップを定義する
+- 依存関係のインストール等が必要なら、プロジェクトの worktree セットアップ設定（例: `.cursor/worktrees.json` や `.claude/worktrees.json` など、ホストの設定ディレクトリ内）で定義する
 
 Limitations:
 

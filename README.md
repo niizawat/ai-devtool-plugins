@@ -1,12 +1,38 @@
-# project-plugin
+# ai-devtool-plugins
 
-Cursor プラグイン用の Marketplace 形式リポジトリです。
+サブエージェント対応 AI ツール向けプラグインのモノレポです。
+Cursor マーケットプレイス形式と [craftdesk](https://craftdesk.ai) の両方からインストールできます。
 
 ## 含まれるプラグイン
 
-- `multi-agent-orchestrator`: SubAgent を活用した「計画 → 並列実装 → 統合 → QA → リリース」フローを提供
+| プラグイン | 概要 |
+| --- | --- |
+| [`multi-agent-orchestrator`](./plugins/multi-agent-orchestrator/) | 計画 → 並列実装 → 統合 → QA ループを回すマルチエージェント開発フロー |
+
+## インストール
+
+利用したいプロジェクトのルートで実行してください。
+
+```bash
+craftdesk add https://github.com/niizawat/ai-devtool-plugins/tree/main/plugins/multi-agent-orchestrator
+craftdesk install
+```
 
 ## 構成
 
-- `.cursor-plugin/marketplace.json`: Marketplace マニフェスト
-- `plugins/`: 各プラグイン本体
+```
+plugins/
+└── multi-agent-orchestrator/   # プラグイン本体
+    ├── .claude-plugin/         # craftdesk 向けマニフェスト
+    ├── .cursor-plugin/         # Cursor 向けマニフェスト
+    ├── agents/
+    ├── commands/
+    ├── rules/
+    └── hooks/
+.cursor-plugin/
+└── marketplace.json            # Cursor マーケットプレイス定義
+```
+
+## ライセンス
+
+MIT

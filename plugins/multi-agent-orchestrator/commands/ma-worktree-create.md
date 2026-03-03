@@ -49,7 +49,7 @@ worktree 作成後、各 Worker の起動プロンプトに以下を含めます
 
 ## worktree セットアップ（依存関係等が必要な場合）
 
-プロジェクトに `.cursor/worktrees.json` がある場合は、その手順を worktree 作成後に実行します。
+プロジェクトに worktree セットアップ設定（例: `.cursor/worktrees.json` や `.claude/worktrees.json`）がある場合は、その手順を worktree 作成後に実行します。
 
 ```bash
 # 例: Node.js（pnpm）の場合
