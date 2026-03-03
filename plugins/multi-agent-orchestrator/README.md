@@ -4,26 +4,22 @@
 
 ## インストール
 
-利用したいプロジェクトのルートで以下のコマンドを実行してください。
+Claude Code 内で以下のスラッシュコマンドを実行してください。
 
-```bash
-# craftdesk.json を初期化（初回のみ）
-pnpm dlx craftdesk init
-
-# プラグインを依存に追加（モノレポのサブディレクトリを直接指定）
-pnpm dlx craftdesk add https://github.com/niizawat/ai-devtool-plugins/tree/main/plugins/multi-agent-orchestrator
-
-# インストール実行（.claude/plugins/ 以下に展開される）
-pnpm dlx craftdesk install
+```
+/plugin marketplace add niizawat/ai-devtool-plugins
+/plugin install multi-agent-orchestrator@ai-devtool-plugins
 ```
 
 ### 反映確認
 
-- ホストを再起動（またはウィンドウのリロード）して、利用可能なエージェント/コマンド一覧に `main-planner` などが出ることを確認してください。
+インストール後にウィンドウをリロードし、利用可能なエージェント/コマンド一覧に `main-planner` などが出ることを確認してください。
 
 ### アンインストール
 
-`craftdesk.json` の `dependencies` から `multi-agent-orchestrator` を削除し、再度 `craftdesk install` を実行してください。
+```
+/plugin uninstall multi-agent-orchestrator@ai-devtool-plugins
+```
 
 ## できること
 
