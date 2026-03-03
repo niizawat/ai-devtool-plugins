@@ -7,24 +7,6 @@
     "email": "niizawa.tadashi@classmethod.jp"
   },
   "license": "MIT",
-  "agents": [
-    "main-planner",
-    "sub-planner",
-    "integrator",
-    "qa",
-    "worker-frontend",
-    "worker-backend",
-    "worker-mobile",
-    "worker-infra"
-  ],
-  "commands": [
-    "ma-plan",
-    "ma-parallel-agents",
-    "ma-handoff",
-    "ma-integrate",
-    "ma-qa",
-    "ma-qa-fail-to-fixplan",
-    "ma-worktree-create",
-    "ma-worktree-cleanup"
-  ]
+  "agents": "../agents/",
+  "commands": "../commands/"
 }
