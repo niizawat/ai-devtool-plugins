@@ -1,36 +1,59 @@
 ---
 name: ma-parallel-agents
-description: Cursorの並列エージェント機能を使って、Workerを3〜5並列で実行し、Applyで取り込む運用テンプレ。
+description: git worktreeを使って、Workerを3〜5並列で実行する運用テンプレ。Cursor UIに依存しない。
 ---
 
 # 並列エージェント（3〜5並列）
 
-並列タスクは Cursor の **並列エージェント**機能で実行します。各エージェントは専用 worktree 上で動作し、互いに干渉せずに編集・ビルド・テストを行えます。
+並列タスクは **git worktree** を使って実行します。
+各 Worker は専用の worktree とブランチ上で作業するため、互いに干渉せず並列で実装・コミットできます。
 
-## Root Planner の責務
+## 全体フロー
 
-- TaskSpec を発行する（Mode: parallel）
-- 各タスクに `assigned_worker` と `skill_cards`（最大2）を付与する
-- **各Workerへの作業指示プロンプト**を完成形で提示し、可能であれば Root Planner 自身が 3〜5 並列で起動する
-- Root Planner が起動できない場合（サブエージェント入れ子制限など）は、メインのAgent（親）が起動できるようにプロンプトを提示する
+```
+親エージェント
+  ├─ [Step 0] worktree 作成（Worker 起動前）
+  ├─ [Step 1] Worker を並列で起動（Task tool）
+  │    ├─ Worker T1 → worktree T1 で実装 → コミット → ハンドオフ提出
+  │    ├─ Worker T2 → worktree T2 で実装 → コミット → ハンドオフ提出
+  │    └─ Worker T3 → ...
+  └─ [Step 2] Integrator がブランチをマージ → worktree を片付け → QA
+```
 
-## ユーザーの実行手順（概要）
+## Step 0: worktree 作成（Worker 起動前に必ず実行）
 
-1. Root Planner が Worker を 3〜5 並列で起動する（起動できない場合は、メインのAgent（親）が提示された Worker プロンプトを並列エージェントとして起動する）
-2. 各カードで変更内容を確認する
-3. 必要なカードから順に **Apply** でプライマリ作業ツリーへ取り込む（同一実行内で複数回 Apply する場合は、Cursor の案内に従う）
-4. 取り込み後、統合と QA を実行する
+`commands/ma-worktree-create.md` の手順に従い、Worker ごとに worktree を作成します。
 
-## Apply の補足
+```bash
+# コミットが1件もない場合は先に空コミットを作成
+git log --oneline -1 2>/dev/null || git commit --allow-empty -m "chore: init"
 
-- Apply は、worktree 側の変更をプライマリ作業ツリーに取り込む操作です
-- 複数カードの結果を取り込む際は、競合が起きた場合に Cursor の UI で merge を選ぶことがあります
+# タスク数に合わせて繰り返す（REPO_NAME はリポジトリのディレクトリ名）
+git worktree add ../REPO_NAME-worker-T1 -b worker/T1
+git worktree add ../REPO_NAME-worker-T2 -b worker/T2
+git worktree add ../REPO_NAME-worker-T3 -b worker/T3
+```
 
-## worktree セットアップ（任意）
+## Step 1: Worker の起動
 
-依存関係のインストールや環境ファイルのコピーなど、worktree 作成時に必要な手順がある場合は、プロジェクト側に `.cursor/worktrees.json` を用意します。
+Root Planner は各タスクの「完成形の作業指示プロンプト」を出力し、親エージェントが Task tool で並列起動します。
 
-- Node.js の例（npmではなくpnpm）:
+各 Worker への指示に必ず含めること：
+
+- 担当 TaskSpec（`task_id`、スコープ、受け入れ条件、最小チェック）
+- **作業する worktree の絶対パス**（例: `/Users/me/repos/myapp-worker-T1`）
+- 実装完了後に `git add . && git commit -m "..."` でコミットする指示
+- ハンドオフは `commands/ma-handoff.md` テンプレで提出（`worktree_path` と `commit_hash` を記載）
+
+## Step 2: 統合と後片付け
+
+Worker のハンドオフが出揃ったら、`commands/ma-worktree-cleanup.md` の手順でブランチをマージし、worktree を削除します。
+
+## worktree セットアップ（依存関係インストール等が必要な場合）
+
+プロジェクト側に `.cursor/worktrees.json` を用意すると、worktree 作成後のセットアップを定義できます。
+
+- Node.js の例（pnpm）:
 
 ```json
 {

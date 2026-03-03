@@ -1,28 +1,47 @@
 ---
 name: ma-worktree-cleanup
-description: 完了したタスクのworktreeディレクトリとブランチを片付ける手順テンプレ。
+description: 完了したWorkerのブランチをマージし、worktreeとブランチを片付ける手順。
 ---
 
-# worktree 片付け（タスク完了後）
+# worktree 片付け（統合フェーズ）
 
-タスク完了後、不要になった worktree とブランチを片付けます。
+Worker のハンドオフが出揃ったら、Integrator（または親エージェント）がブランチをマージして worktree を片付けます。
 
-## 削除（worktree）
-
-```bash
-git worktree remove ../project-worker-T1
-```
-
-## 削除（ブランチ）
-
-統合済みで不要になった場合:
+## Step 1: ベースブランチへのマージ
 
 ```bash
-git branch -d worker/T1
+# ベースブランチへ移動
+git checkout main   # または master / develop
+
+# 各ワーカーブランチをマージ（競合がなければ --no-ff で履歴を残す）
+git merge --no-ff worker/T1 -m "merge(T1): <タイトル>"
+git merge --no-ff worker/T2 -m "merge(T2): <タイトル>"
+git merge --no-ff worker/T3 -m "merge(T3): <タイトル>"
 ```
 
-リモート運用している場合（必要なときだけ）:
+> **競合が発生した場合**: 競合ファイルを修正してから `git merge --continue` で続行してください。
+> 判断が難しい競合は Root Planner に報告してください。
+
+## Step 2: worktree の削除
 
 ```bash
-git push origin --delete worker/T1
+git worktree remove ../REPO_NAME-worker-T1
+git worktree remove ../REPO_NAME-worker-T2
+git worktree remove ../REPO_NAME-worker-T3
 ```
+
+## Step 3: ブランチの削除（統合済みの場合）
+
+```bash
+git branch -d worker/T1 worker/T2 worker/T3
+```
+
+リモートにプッシュしていた場合（必要なときだけ）:
+
+```bash
+git push origin --delete worker/T1 worker/T2 worker/T3
+```
+
+## Step 4: 後続フェーズへ
+
+worktree の片付け完了後、QA フェーズへ移行します。
