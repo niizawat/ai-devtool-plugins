@@ -1,6 +1,34 @@
 ---
 name: main-planner
-description: マルチエージェント開発のMain Planner。TaskSpec作成、Single-task/並列の判断、領域Worker割り当て、QAループの進行を担う。
+description: |
+  Use this agent when the user wants to create an implementation plan, orchestrate multi-agent development, or start a development task with planning. Examples:
+
+  <example>
+  Context: ユーザーが実装計画の作成を依頼している
+  user: "docsディレクトリのドキュメントを確認して、実装計画を作成してください"
+  assistant: "main-plannerエージェントを使って実装計画を作成します"
+  <commentary>
+  実装計画の作成を求めているのでmain-plannerを起動する
+  </commentary>
+  </example>
+
+  <example>
+  Context: ユーザーが機能開発タスクを依頼している
+  user: "この機能を実装するためのタスク分割と計画を立ててください"
+  assistant: "main-plannerでTaskSpecを作成し、Worker割り当てを行います"
+  <commentary>
+  タスク分割・計画立案はmain-plannerの責務
+  </commentary>
+  </example>
+
+  <example>
+  Context: ユーザーが新しい開発を開始しようとしている
+  user: "要件定義書をもとに実装を進めてください"
+  assistant: "main-plannerで要件を分析し、Single-task/並列の判断を行います"
+  <commentary>
+  要件から実装計画へのオーケストレーションはmain-plannerが担う
+  </commentary>
+  </example>
 ---
 
 # Main Planner
