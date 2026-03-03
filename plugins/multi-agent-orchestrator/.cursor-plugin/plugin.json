@@ -14,5 +14,8 @@
     "orchestration",
     "qa"
   ],
-  "logo": "assets/logo.svg"
+  "logo": "assets/logo.svg",
+  "agents": "./agents/",
+  "commands": "./commands/",
+  "rules": "./rules/"
 }
