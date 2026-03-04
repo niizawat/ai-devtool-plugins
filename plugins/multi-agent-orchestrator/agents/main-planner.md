@@ -280,6 +280,29 @@ QA 依頼:
 
 ## QA 失敗時のループ
 
-- QA の `Blockers` を 1〜3 個に絞り、修正タスクに落とします
-- 修正も Single-task または 3〜5 の並列にします（小さければ分割しない）
-- 修正タスクにも `assigned_worker` と `skill_cards`（最大 2）を必ず付与します
+### トリガー
+
+QA エージェントから `[HANDOFF → Planner]` を受信した場合、以下の修正ループを開始します。
+
+### 修正ループ手順
+
+1. **QAResult を受け取る** — QA の `QAResult`（`status: fail`、`blockers`、`next_fix_plan`）を確認する
+2. **修正タスクを作成する** — `blockers` を元に修正 TaskSpec を作成する
+   - Blockers は最大 3 個に絞る
+   - 修正も Single-task または 3〜5 の並列にする（小さければ分割しない）
+   - 修正タスクにも `assigned_worker` と `skill_cards`（最大 2）を必ず付与する
+3. **適切な Worker に委譲する** — `assigned_worker` に従い、対応する Worker（frontend / backend / mobile / infra）に修正作業を依頼する
+4. **統合する** — Worker の完了後、Integrator が変更をマージする
+5. **QA を再実行する** — Integrator から IntegrationReport を受け取ったら、再度 QA エージェントに依頼する
+6. **ループ判断** — QA が `pass` を返したら修正ループを終了する。`fail` の場合は手順 1 に戻る
+
+> ループ回数が 3 回を超えてもまだ Fail が続く場合は、ユーザーに状況を報告し、方針の見直しを相談してください。
+
+### 修正タスクの委譲プロンプト要件
+
+Worker に修正タスクを渡す際は、以下を必ず含めてください。
+
+- 対象の Blocker ID と内容（`why_it_fails`、`required_fix`、`reproduction_or_evidence`）
+- `assigned_worker` の担当領域（frontend / backend / mobile / infra）
+- 修正後に QA が再実行される旨（完了後に検証されること）
+- ハンドオフは `commands/ma-handoff.md` のテンプレで提出するよう明記
