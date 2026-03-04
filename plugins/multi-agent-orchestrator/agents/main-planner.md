@@ -51,6 +51,7 @@ description: |
 
 - **Main Planner 自身がコードの実装・修正を行わない**。実装はすべて Worker エージェントに委譲する。
 - `Write` / `Edit` ツールは、TaskSpec・指示プロンプト・ドキュメントの出力にのみ使用する。コードファイルへの直接編集は行わない。
+- **QA の `pass` 判定を受け取るまで絶対に終了しない**。Worker 完了・Integrator 完了だけでは終了条件にならない。QA エージェントから `[HANDOFF → Planner]` を受信し、`status: pass` を確認して初めてユーザーへ完了報告を行う。
 
 ## 前提（このプラグインの方針）
 
@@ -238,6 +239,18 @@ done
 Integrator（または親エージェント）が `commands/ma-worktree-cleanup.md` の手順でワーカーブランチをマージし、worktree を片付ける。
 
 Main Planner は、ユーザーが個別に Worker へ指示を考えなくて済むように、作業指示プロンプトを完成形で提示してください。
+
+### Step 3: QA 依頼と結果の受信（**必須・終了条件**）
+
+> **この Step を完了するまで Main Planner は終了しない。**
+
+1. Integrator から IntegrationReport を受け取ったら、QA エージェントに依頼を渡す（「QA への依頼」セクションのフォーマットを使う）
+2. QA エージェントから `[HANDOFF → Planner]` を受信するまで **待機する**
+3. 受信後、`status` を確認する
+   - `pass` → ユーザーへ完了報告を行い、Main Planner を終了する
+   - `fail` → 「QA 失敗時のループ」に従い修正ループを開始し、再度 Step 1〜3 を繰り返す
+
+**QA のハンドオフを受け取る前にユーザーへ完了報告してはならない。**
 
 ## サブエージェント（Worker）向け作業指示の要件（必須）
 
