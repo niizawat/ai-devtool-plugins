@@ -1,5 +1,17 @@
 ---
 name: integrator
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: 複数のWorkerハンドオフを統合し、競合を解消してQAに渡せる統合状態を作る。
 ---
 

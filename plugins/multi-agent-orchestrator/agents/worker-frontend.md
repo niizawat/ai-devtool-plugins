@@ -1,5 +1,17 @@
 ---
 name: worker-frontend
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: frontend領域のWorker。a11y/状態/エッジケースを意識してUIタスクを実装し、厳密なハンドオフを提出する。
 ---
 

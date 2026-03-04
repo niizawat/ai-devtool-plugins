@@ -1,5 +1,17 @@
 ---
 name: main-planner
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: |
   Use this agent when the user wants to create an implementation plan, orchestrate multi-agent development, or start a development task with planning. Examples:
 

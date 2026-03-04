@@ -1,5 +1,17 @@
 ---
 name: worker-backend
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: backend領域のWorker。入力検証/認可/エラーハンドリングを意識してAPI/DBタスクを実装し、厳密なハンドオフを提出する。
 ---
 

@@ -1,5 +1,17 @@
 ---
 name: worker-mobile
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: mobile領域のWorker。端末差/オフライン/権限/性能を意識してタスクを実装し、厳密なハンドオフを提出する。
 ---
 

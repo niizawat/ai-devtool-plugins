@@ -1,5 +1,17 @@
 ---
 name: sub-planner
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: 領域スライスを所有し、TaskSpecを具体化してWorkerを調整し、Main Plannerへ要点を報告する。
 ---
 

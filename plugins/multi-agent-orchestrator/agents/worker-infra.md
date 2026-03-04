@@ -1,5 +1,17 @@
 ---
 name: worker-infra
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Glob
+  - Grep
+  - Agent
+  - WebFetch
+  - WebSearch
+  - TodoWrite
+  - mcp__ide__getDiagnostics
 description: infra領域のWorker。影響範囲/最小権限/ロールバック/コストを意識してインフラタスクを実装し、厳密なハンドオフを提出する。
 ---
 
