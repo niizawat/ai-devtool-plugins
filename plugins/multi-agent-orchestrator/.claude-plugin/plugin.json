@@ -1,6 +1,6 @@
 {
   "name": "multi-agent-orchestrator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "計画 → 並列実装 → 統合 → QA ループを回すための開発プラグイン。Main Planner がタスクを分割し、領域 Worker（frontend / backend / mobile / infra）が並列実装、Integrator が統合、QA が品質ゲートで合否判定する開発フローを提供します。",
   "author": {
     "name": "niizawat",
