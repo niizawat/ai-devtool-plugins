@@ -202,6 +202,24 @@ git log --oneline -1 2>/dev/null || git commit --allow-empty -m "chore: init"
 # 各タスクの worktree を作成（T2, T3... は必要数に合わせて追加）
 git worktree add ../REPO_NAME-worker-T1 -b worker/T1
 git worktree add ../REPO_NAME-worker-T2 -b worker/T2
+
+# Worker 用の権限設定（プロジェクトに .claude/settings.local.json がある場合は必須）
+# プロジェクトの tool 制限が worktree に引き継がれ Worker がブロックされるのを防ぐ
+for dir in ../REPO_NAME-worker-T1 ../REPO_NAME-worker-T2; do
+  mkdir -p "$dir/.claude"
+  cat > "$dir/.claude/settings.local.json" <<'EOF'
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)"
+    ]
+  }
+}
+EOF
+done
 ```
 
 ### Step 1: Worker の起動

@@ -32,6 +32,31 @@ git worktree add ../REPO_NAME-worker-T3 -b worker/T3
 git worktree list
 ```
 
+## Worker 用の権限設定（必須）
+
+プロジェクトの `.claude/settings.local.json` に tool 制限がある場合、Worker が Write/Edit/Bash などを実行できずブロックされます。各 worktree に権限設定ファイルを作成してください。
+
+```bash
+# 各 worktree に .claude/settings.local.json を作成
+for dir in ../REPO_NAME-worker-T1 ../REPO_NAME-worker-T2 ../REPO_NAME-worker-T3; do
+  mkdir -p "$dir/.claude"
+  cat > "$dir/.claude/settings.local.json" <<'EOF'
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)"
+    ]
+  }
+}
+EOF
+done
+```
+
+> **注意**: このファイルは `.gitignore` に追加するか、コミット対象から外してください。
+
 ## Worker への情報提供
 
 worktree 作成後、各 Worker の起動プロンプトに以下を含めます：
